@@ -1,0 +1,111 @@
+1.client 客户端发送信息给ISP（Internet Service Provider)再提供给DNS（Domain Name System域名系统服务器）查找网站的IP
+
+HTML CSS JS
+HTML content
+CSS style
+JS function
+
+stackoverflow 网站可以提问
+
+Introduction to HTML
+Hyper Text Markup Language 超文本标记语言
+HTML tags
+
+```
+<h1> 最大的标题 </h1>
+<h6>最小的标题
+<br>换行符，不需要结束tag self-closing tag
+<hr>水平线，不需要结束tag
+<hr size = "3"> HTML element + HTML Attribute
+<!-- 注释写这里 -->
+```
+
+MDM
+W3 SCHOOL 
+Dev Doc
+三个网站可以查阅HTML的标签documentation
+
+tag的格式可以在tag omission找到 omission省略
+hr的attribute有size、 noshade、align、color、width
+
+HTML Boilerplate
+模板
+```
+<!DOCTYPE html><!--  声明文档类型  -->
+<html lang="en">网页的开始和结束标签，lang是language
+	<head>
+		<meta charset="UTF-8">元标记，用于网页的字符集编码
+		<title>网页的标题栏</title>
+	</head>
+	<body>网页的内容
+		<h1>内容1</h1>
+	</body>
+
+
+</html>
+```
+
+![[Pasted image 20230323152650.png]]
+![[Pasted image 20230323152803.png]]
+
+meta description 可以在搜索引擎SERP显示
+meta里name和content总是成对出现的，name指定了数据类型，content指定了具体的值
+
+```
+<i>斜体</i>
+<b>加粗</b>
+<u>下划线</b>
+
+<em>强调的斜体emphasis</em>
+<strong>强调加粗strong importance</strong>
+
+<ul> 无序列表 un-ordered list 也叫 bullet list
+<ol> 有序列表
+注意在这两个tag里都需要包含<li> 才能正常的显示出来
+```
+错误写法：
+```
+<li>aaa</li>
+<li>baa</li>
+<ul>ccc</ul>
+<ul>dcc</ul>
+<ol>eee</ol>
+<ol>fee</ol>
+```
+![[Pasted image 20230323163429.png]]
+正确写法：
+```
+<ul>
+    <li>Milk</li>
+    <li>Cheese
+        <ul>
+            <li>Blue cheese</li>
+            <li>Feta</li>
+        </ul>
+    </li>
+</ul>
+
+<ul>
+	<li>aaa</li>
+	<li>bbb</li>
+	<li>ccc</li>
+	<ol>
+		<li>c1</li>
+		<li>c2</li>
+	 </ol>
+</ul>
+```
+
+![[Pasted image 20230323164046.png]]
+
+有序列表提供了更多的属性比如使用罗马数字（`<ol type="i">`)、开始数字为4(`<ol stat="4">`)、倒叙(`<ol reversed>`)
+
+添加图片
+`<img src="" alt=""> src是sources alt是图片加载不出来的时候显示的替代文字，也是搜索引擎对网页搜索的内容`
+
+超链接：`<a></a>`anchor tag
+```
+<a href="https://...">链接名字</a>
+<a href="xxx.html">链接名字</a> 这两个html需要在同一个文件夹里
+
+```
