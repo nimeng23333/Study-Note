@@ -93,7 +93,7 @@ https://datatracker.ietf.org/doc/rfc1644/
 ### 书：
 - [ ] 《Linux系统编程》
 - [ ] 《Windows程序设计》第五版
-- [ ] 《Windows核心编程》
+- [ ] 《Window核心编程》
 
 ## 7.汇编与安全工程：
 
@@ -111,7 +111,7 @@ https://datatracker.ietf.org/doc/rfc1644/
 - [ ] 《MySQL排错指南》 #深入 
 - [ ] 《数据库索引设计与优化》 #深入 
 
-## 9.编译原理：
+## 9.编译原理与计算机组成原理：
 
 - [ ] 《编译系统透视：图解编译原理》
 
