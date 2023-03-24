@@ -1,0 +1,43 @@
+input:invalid {
+    background-color: #ffdddd;
+  }
+input:required:invalid {
+    border-color: #C00000;
+  }
+input:required:valid {
+    border-color: initial;
+  }
+.initialstyle {
+    border:initial;
+    background-color:initial;
+}
+
+/**********tag select*************/
+
+h1 {
+    color: red;
+    font-size: 100px;
+}
+/*
+img {
+    background-color: red;
+}
+*/
+
+/**********class select*************/
+
+.green {
+    background-color: green;
+}
+.red {
+    background-color: red;
+}
+.round {
+    border-radius: 100%;
+}
+
+/**********id select*************/
+
+#maintitle {
+    color: aqua;
+}
