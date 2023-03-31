@@ -4,35 +4,18 @@
     "type": "split",
     "children": [
       {
-        "id": "175de318c6d20efc",
+        "id": "cf2bef4d526738e0",
         "type": "tabs",
         "children": [
           {
-            "id": "33032eadcbc5a0d6",
+            "id": "d2fb544780629d4c",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Git 练习.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "804e1e698b9be158",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Git branch 练习.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "empty",
+              "state": {}
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -82,7 +65,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200
   },
   "right": {
     "id": "1795e659a3b74cef",
@@ -98,7 +81,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Git branch 练习.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +97,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Git branch 练习.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -137,9 +118,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "Git branch 练习.md"
-              }
+              "state": {}
             }
           }
         ]
@@ -159,13 +138,25 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "804e1e698b9be158",
+  "active": "d2fb544780629d4c",
   "lastOpenFiles": [
-    "Git 练习.md",
-    "Git branch 练习.md",
-    "Git & GitHub Bootcamp.md",
+    "README.md",
+    "GIT&GITHUB/Git & GitHub Bootcamp.md",
+    "图片/Pasted image 20230331173901.png",
     "TO DO LIST.md",
     "计算机通用指令.md",
-    "2023-03-17基础电路.md"
+    "课程List.md",
+    "科学速成课/2023-03-17基础电路.md",
+    "科学速成课",
+    "科学速成课/2023-03-22.md",
+    "Web Dev/The Complete 2023 Web Dev bootcamp - Intermediate to HTML - 2023-03-24.md",
+    "Web Dev",
+    "Web Dev/The Complete 2023 Web Dev bootcamp - Introduction to HTML - 2023-03-23.md",
+    "Web Dev/The Complete 2023 Web Dev bootcamp - Introduction to CSS -2023-03-24.md",
+    "GIT&GITHUB",
+    "GIT&GITHUB/Git diff 练习.md",
+    "GIT&GITHUB/Git 练习.md",
+    "图片/Pasted image 20230331175956.png",
+    "GIT&GITHUB/Git branch 练习.md"
   ]
 }

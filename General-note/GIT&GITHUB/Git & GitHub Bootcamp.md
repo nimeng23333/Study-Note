@@ -55,6 +55,8 @@ git init 将某个文件夹初始为git仓库
 一个文件夹初始化为git仓库以后，会有一个.git的隐藏文件来记录
 如果一个文件夹被重复初始化将会出错
 
+# Git Commit
+
 git commit 可以理解为检查点，自己设定修改内容
 
 仓库里的文件有修改的时候 git status会显示有内容修改但无追踪
@@ -80,6 +82,9 @@ amend commit 补充提交 只能补充最新提交的commit
 git commit --amend
 ```
 
+# .gitignore
+
+
 不想或者不需要被git追踪的东西可以用.gitignore文件
 ```
 在.gitignore文件里
@@ -99,6 +104,7 @@ git branch 分支名      可以在现在的分支上创建一个新的分支
 git switch 分支名      切换分支
 git checkout 分支名    也可以切换分支
 git switch -c 分支名   创建新的分支并切换
+git checkout -b 分支名 创建新的分支并切换
 ```
 在一个分支工作在其他分支也有，且没有commit的时候切换分支将会失去未提交的工作内容
 如果当前工作在其他分支不冲突的时候，未commit就提交的时候这个文件会跟着切换
@@ -107,4 +113,54 @@ git switch -c 分支名   创建新的分支并切换
 git branch -d 分支名  可以删除分支，但当分支没有被merge的时候不允许删除
 git branch -D 分支名 强制删除分支
 git branch -m 分支名 给所在的分支改名
+```
+
+# Git Branch Merge
+
+```
+git switch 分支名1
+git merge  分支名2
+切换到分支1后，将分支2的内容merge进1
+```
+
+当merge有冲突的时候会在文件里高亮有冲突的地方，打开显示为
+```
+<<<<<<<<<<HEAD
+原branch的信息
+=============
+要合并进来branch的信息
+>>>>>>>>
+```
+将标志删除，并决定如何修改，保存，就可以git add及git commit了
+
+![[Pasted image 20230331173901.png]]
+
+# Git Diff
+
+```
+git diff 会比较暂存区域区域与本地区域文件的区别
+```
+![[Pasted image 20230331175956.png]]
+
+```
+diff --git a/文件（更早版本） b/文件（更新版本）
+index 哈希值不用管
+--- a/文件 用减号标注的都是a的内容
++++ b/文件 用加号标注的都是b的内容
+@@ -3,4 +3,5 @@ 表示一下内容在a文件的第三行开始涉及4行，在b文件的3行开始，涉及五行
+```
+
+```
+git diff HEAD       不管暂存与否都可以与仓库文件比较
+而add以后commit之前用git diff不能显示区别，因为git diff是比较本地文件与暂存区
+git diff --staged    可以比较暂存区与仓库文件
+git diff --cached    与staged一样
+
+git diff HEAD 文件名 可以只比较给定文件的新旧版本
+git diff 文件名
+
+git diff 分支1..分支2
+git diff 分支1 分支2    可以比较两个分支之间的区别
+
+git diff commit1..commit2 复制两个commit的哈希短值即可比较两个commit的区别
 ```
