@@ -13,13 +13,26 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Git & GitHub Bootcamp.md",
+                "file": "Git 练习.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "804e1e698b9be158",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Git branch 练习.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -85,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Git & GitHub Bootcamp.md",
+                "file": "Git branch 练习.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Git & GitHub Bootcamp.md",
+                "file": "Git branch 练习.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Git & GitHub Bootcamp.md"
+                "file": "Git branch 练习.md"
               }
             }
           }
@@ -146,9 +159,13 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "33032eadcbc5a0d6",
+  "active": "804e1e698b9be158",
   "lastOpenFiles": [
     "Git 练习.md",
+    "Git branch 练习.md",
+    "Git & GitHub Bootcamp.md",
+    "TO DO LIST.md",
+    "计算机通用指令.md",
     "2023-03-17基础电路.md"
   ]
 }

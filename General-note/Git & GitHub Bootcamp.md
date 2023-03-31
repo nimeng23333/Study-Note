@@ -67,5 +67,44 @@ git commit直接提交会打开一个默认编辑器并存信息
 git log 可以看提交日志
 q可以退出日志模式
 
+一次commit只关注一个事情
+
+git log的时候
+```
+git log --abbrev-commit 显示commit的短哈希值
+git log --oneline 每个commit都只显示一行
+```
+
+amend commit 补充提交 只能补充最新提交的commit
+```
+git commit --amend
+```
+
+不想或者不需要被git追踪的东西可以用.gitignore文件
+```
+在.gitignore文件里
+.文件名 可以省略文件
+文件夹名/ 可以省略文件夹及里面的东西
+*.log 可以省略该后缀的所有文件
+```
+[gitignore.io - 为你的项目创建必要的 .gitignore 文件 (toptal.com)](https://www.toptal.com/developers/gitignore/)
+可以找到常用的ignore内容
+
+HEAD -> 分支名 当前指向的branch
 
 
+```
+git branch            查看所有的分支
+git branch 分支名      可以在现在的分支上创建一个新的分支
+git switch 分支名      切换分支
+git checkout 分支名    也可以切换分支
+git switch -c 分支名   创建新的分支并切换
+```
+在一个分支工作在其他分支也有，且没有commit的时候切换分支将会失去未提交的工作内容
+如果当前工作在其他分支不冲突的时候，未commit就提交的时候这个文件会跟着切换
+
+```
+git branch -d 分支名  可以删除分支，但当分支没有被merge的时候不允许删除
+git branch -D 分支名 强制删除分支
+git branch -m 分支名 给所在的分支改名
+```
