@@ -170,3 +170,53 @@ git diff 分支1 分支2    可以比较两个分支之间的区别
 
 git diff commit1..commit2 复制两个commit的哈希短值即可比较两个commit的区别
 ```
+
+# Git Stash
+
+当在某一个分支里工作但还不想提交需要到其他分支的时候可以用stash隐藏当前的未提交修改
+
+```
+git stash
+git stash save
+都可以隐藏暂存与未暂存的文件修改
+
+git stash pop                  将隐藏的文件拿出来
+git stash apply                将stash里的隐藏的文件应用，但不删掉stash里的文件，可以在多个分支一起应用这个修改
+git stash list                 可以看到stash区的储存列表
+git stash apply stash@{2}      应用某一条stash存的修改
+git stash drop stash@{2}       删掉某一条stash存的修改
+git stash clear                删掉全部stash存的修改
+```
+
+# Git Checkout
+
+```
+git checkout 哈希值                   可以回到之前的某次提交，处于一个detached head的状态
+git switch 分支名                     切换到现在的某个分支
+git checkout -                       回到现在的分支
+git checkout HEAD~1                  回到上一个提交
+git checkout HEAD~2                  回到上两个提交
+git checkout HEAD 文件名              让文件回到最近提交的内容
+git checkout -- 文件名                让文件回到最近提交的内容
+```
+
+# Git Restore
+
+```
+git restore 文件名                    让文件回到最近提交的内容
+git restore --source HEAD~1 文件名    让文件回到上一个提交的内容
+git restore --staged 文件名           让暂存的文件回到工作区
+```
+
+# Git Reset
+
+```
+git reset 哈希值            恢复到某一次提交（后面的提交全没有了，但内容会存在在工作区
+git reset --hard 哈希值     恢复到某一次提交，后面的提交消失，且内容不存在工作区
+git reset --hard HEAD~1
+```
+
+# Git Revert
+```
+git revert 哈希值          不会删掉前面的提交，将某次及之后提交的内容撤掉形成一个新的提交，会有冲突并确认
+```
