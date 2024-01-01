@@ -188,3 +188,112 @@ function getCategory (data) {
 正则表达式（Regular Expression），在代码中常简写为regex、regexp或RE，是一种用于匹配和操作文本的工具。它是由一系列字符和特殊字符组成的模式，用于描述要匹配的文本模式。正则表达式可以在文本中查找、替换、提取和验证特定的模式。
 
 在JavaScript中，RegExp对象用于将文本与一个模式匹配。例如，`var rex = new RegExp($(this).val(), 'i'); `这行代码创建了一个新的正则表达式对象。正则表达式的模式是用户在输入框中输入的文本，'i'标志表示不区分大小写。
+
+去掉所有的空格：
+```js
+xxx.replace(/[^a-zA-Z0-9]/g , '')
+```
+
+将/替换为-：
+```js
+xxx.replace(/\//g,'-')
+```
+注意，正则表达式中的 / 需要用反斜杠 \ 转义，因为 / 本身是正则表达式的界定符
+
+##### 转义
+
+反斜杠在正则表达式中是用来转义的，也就是让特殊字符失去它们的特殊含义，变成普通字符。
+
+除了转义正则表达式中的元字符，如 `. $ ^ { [ ( | ) * + ? \ `等，还有一些情况需要用到转义，例如：
+转义字符串中的特殊字符，如换行符 `(\n) `，制表符` (\t) `，引号` (\")` 等。
+转义 Unicode 字符，如中文字符 `(\u4E2D) `，表情符号` (\uD83D\uDE00)` 等。
+转义 HTML 标签，如` < (\<) `，`> (\>) `，`& (\&) `等。
+[正则表达式 转义字符|极客笔记 (deepinout.com)](https://deepinout.com/regexp/regexp-tutorials/10_regular_expression_escape_character.html)
+
+[最实用的正则表达式整理 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/30573054)
+
+## JS 时间
+[Date - JavaScript | MDN (mozilla.org)](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Date)
+
+```js
+const day = new Date();
+const jsonDate = day.toJSON(); //将时间转化为JSON也就是iso标准格式
+console.log(jsonDate);
+console.log(new Date(jsonDate).toUTCString());
+```
+输出内容：
+> "2023-12-01T09:21:02.178Z" 
+> "Fri, 01 Dec 2023 09:21:02 GMT"
+
+[Intl.DateTimeFormat - JavaScript | MDN (mozilla.org)](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat)
+
+时间格式化
+```JS
+let date = new Date('2023-12-07T16:00:00.000Z');
+let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+let formatter = new Intl.DateTimeFormat('zh-CN', options);
+console.log(formatter.format(date)); // 输出: '2023/12/07'
+```
+
+```HTML
+<%=  new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit'}).format(item.date) %>
+
+<%= new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit'}).format(new Date()) %> //输出成今天 2023/12/15
+
+<%= new Intl.DateTimeFormat('zh-CN', { dateStyle: 'short' }).format(new Date()) %> //输出成今天 2023/12/15
+
+<%= new Intl.DateTimeFormat().format(new Date()) %> //输出成今天 2023/12/15
+<%= new Intl.DateTimeFormat().format(new Date()).replace(/\//g,'-') %> //输出成今天 2023/12/15
+
+```
+
+### 字符相关
+
+xxx.trim()函数可以去掉字符串前后的空格
+xxx.toLowerCase()将字符全小写
+
+### async 与 await
+
+在async里才能用await
+```js
+async function showDisplay(){
+  const result = await db.query("SELECT country_code FROM visited_countries");
+  let countries = [];
+  result.rows.forEach((country)=>{
+    countries.push(country.country_code);
+  })
+  return countries; //返回的数值return
+}
+
+
+app.post("/add", async(req,res) =>{
+  const newCountry = req.body.country.slice(0,1).toUpperCase() + req.body.country.slice(1).toLowerCase();
+  const newCountryCode = await db.query("SELECT country_code FROM countries WHERE country_name LIKE $1", [newCountry + '%']);
+  await db.query("INSERT INTO visited_countries(country_code) VALUES ($1)" ,[newCountryCode.rows[0].country_code]);
+  const countries = await checkVisited();   //注意！！async的函数调用时也要await
+  res.render("index.ejs", {countries : countries, total: countries.length})
+  res.redirect("/");
+
+})
+```
+
+## 排序和比大小
+
+`arr.sort()`排序函数
+localCompare比较字符串大小
+```js
+//定义一个函数，比较两个js对象的name属性在字典排序先后
+function compareByName(a, b) {
+  // 获取 a 和 b 的 name 属性的值，分别赋值给变量 nameA 和 nameB
+  var nameA = a.name;
+  var nameB = b.name;
+  // 使用 nameA 和 nameB 的 localeCompare 方法，来比较两个字符串的字典顺序
+  // 返回比较的结果，作为比较函数的返回值
+  return nameA.localeCompare(nameB);
+}
+  arr.sort(compareByName); //将内容按照name属性名排序
+```
+
+
+
+
