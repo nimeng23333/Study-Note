@@ -240,3 +240,18 @@ npm audit fix --force
 ```
 
 [npm audit 报错 501 Method Not Implemented npm/v1/security/audits/quick not implemented yet - 糖~豆豆 - 博客园 (cnblogs.com)](https://www.cnblogs.com/sugartang/p/17637689.html)
+
+
+### 获取元素
+
+
+`getElementsByTagName` 返回的是一个 `HTMLCollection`，而不是一个数组，所以它没有 `map` 方法。可以使用 `Array.from` 或者扩展运算符 `...` 来将 `HTMLCollection` 转换为数组
+
+```js
+const sections = document.getElementsByTagName("section");
+Array.from(sections).map((section) =>{
+	const rect = section.getBoundingClientRect();
+	const isInView = rect.top < window.innerHeight && rect.bottom >= 0;
+	console.log(section,isInView);
+});
+```
