@@ -1,3 +1,6 @@
+---
+title: Component tree - 2023-12-26
+---
 
 [Managing a Component Tree (forked) - CodeSandbox](https://codesandbox.io/p/sandbox/managing-a-component-tree-forked-y4hd8s?file=%2Fsrc%2Fcomponents%2FToDoItem.jsx%3A7%2C25)
 用useState/ ternary operator/ inline style完成的点击划线

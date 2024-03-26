@@ -1,3 +1,7 @@
+---
+title: Day5 - Loading
+---
+
 ### CSS - background
 background:url(""); } 在不写repeat与no-repeat的情况下，默认的是平铺。repeat平铺的效果，就是一张图，可以铺满整个屏幕。
 

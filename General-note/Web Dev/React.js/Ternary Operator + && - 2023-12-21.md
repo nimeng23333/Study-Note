@@ -1,3 +1,6 @@
+---
+title: Ternary Operator + && - 2023-12-21
+---
 
 Ternary Operator三元运算符
 
@@ -48,8 +51,8 @@ UI = f(state)
 
 Imperative programming specifies and directs the control flow of the program.
 Declarative programming specifies the expected result and core logic without directing the program's control flow. The programmer makes the major decisions about how the program works.
-![[Pasted image 20231222133701.png]]
-![[Pasted image 20231222133909.png]]
+![[../../note_images/Pasted image 20231222133701.png]]
+![[../../note_images/Pasted image 20231222133909.png]]
 
 SQL的WHERE是一个很典型的声明式编程
 

@@ -1,3 +1,6 @@
+---
+title: Responsible webpage - 2023-10-11
+---
 1.媒体查询 media queries
 2.CSS Grid
 3.CSS Flexbox
@@ -11,11 +14,11 @@
 ```
 
 Grid：2d
-![[Pasted image 20231011160801.png]]
+![[../../note_images/Pasted image 20231011160801.png]]
 display改为gid，设置column及row
 
 Flexbox：1d，可以制作横列表，竖列表
-![[Pasted image 20231011161022.png]]
+![[../../note_images/Pasted image 20231011161022.png]]
 不固定的长或短用flex表示
 
 Bootstrap Framework: 预设了很多类的框架

@@ -1,3 +1,6 @@
+---
+title: Day13 - Random Picker
+---
 
 ### JS - string.trim()
 String 的 trim() 方法会从字符串的两端移除空白字符，并返回一个新的字符串，而不会修改原始字符串。
@@ -66,6 +69,6 @@ spread, radius, inset和color都是optional
 box-shadow: offset-x, offset-y, spread(optional), radius(optional), color(optional)
 多个阴影可以用逗号分隔
 比如`   box-shadow: inset -3px -4px 6px var(--color-1-transparent),inset 2px 2px 6px var(--color-1-transparent);`
-![[Pasted image 20231231002904.png]]
+![[../note_images/Pasted image 20231231002904.png]]
 
 

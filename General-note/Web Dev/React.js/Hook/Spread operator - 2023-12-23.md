@@ -1,3 +1,6 @@
+---
+title: Spread operator - 2023-12-23
+---
 
 数组扩散
 ```js
@@ -175,4 +178,4 @@ function App() {
 
 export default App;
 ```
-![[Pasted image 20231224000634.png]]
+![[../../../note_images/Pasted image 20231224000634.png]]

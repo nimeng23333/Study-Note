@@ -1,9 +1,12 @@
+---
+title: CSS - Bootstrap - 2023-10-13
+---
 bootstrap有很多内置预设的css框架
 
 include via CDN (content delivery network)
 
 bootstrap自带的container会根据屏幕尺寸不同修改自己的大小
-![[Pasted image 20231013194237.png]]
+![[../../note_images/Pasted image 20231013194237.png]]
 
 grid布局自动是一个row，row里面很多个column
 自动将整个屏幕宽度分为12份
@@ -26,7 +29,7 @@ class="col-sm-12 col-md-8 col-lg-4"
 在bootstrap里 margin和padding都可以用简写
 mt-5 就是margin-top: spacer * 3
 px-1 就是padding-left + padding-right : spacer * 0.25
-![[Pasted image 20231013211445.png]]
+![[../../note_images/Pasted image 20231013211445.png]]
 
 ### Darkmode
 只需要添加一个标签

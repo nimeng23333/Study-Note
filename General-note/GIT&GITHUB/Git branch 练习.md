@@ -1,3 +1,6 @@
+---
+title: Git branch 练习
+---
 # Branching Exercise
 
 题目
@@ -84,6 +87,7 @@ SNAPE'S PATRONUS
 
 操作：
 
+```
 Administrator@REBECCA-DESKTOP2023 MINGW64 /e/Udemy/Git&Github Bootcamp/Exercise
 $ mkdir Patronus
 
@@ -302,3 +306,4 @@ $ git branch
   harry
   lily
 * master
+```

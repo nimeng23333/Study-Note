@@ -1,3 +1,6 @@
+---
+title: Git stash 练习
+---
 # Stashing Exercise
 
 1.  Initialize a new git repo in a folder
@@ -32,11 +35,13 @@
     
 10.  As your boss walks by, add more lies to the `diary.txt` file:
     
-    ```
-    I love my boss
-    I love my boss
-    I love my boss
-    ```
+```
+
+I love my boss
+I love my boss
+I love my boss
+
+```
     
 11.  Add and commit your changes on the `master` branch.
     
@@ -48,6 +53,7 @@
 
 ## 作业
 
+```
 Administrator@REBECCA-DESKTOP2023 MINGW64 /e/Udemy/Git&Github Bootcamp/Exercise
 $ git init
 Initialized empty Git repository in E:/Udemy/Git&Github Bootcamp/Exercise/.git/
@@ -389,3 +395,4 @@ $ git commit -m"333"
 
 Administrator@REBECCA-DESKTOP2023 MINGW64 /e/Udemy/Git&Github Bootcamp/Exercise/stash-exercise (master)
 $
+```

@@ -1,3 +1,6 @@
+---
+title: Day18 - Background slider
+---
 
 ### CSS - Background
 background: (url) center center cover;

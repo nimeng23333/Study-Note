@@ -1,3 +1,6 @@
+---
+title: Next.js - 调用API
+---
 
 step 1 在api文件夹下新建文件
 generatePost.js
@@ -19,7 +22,7 @@ const handleClick = async (props) =>{
 }
 ```
 
-data能传递出{data:"generatedPost"}
+data能传递出`{data:"generatedPost"}`
 
 step3 加入open ai的api
 

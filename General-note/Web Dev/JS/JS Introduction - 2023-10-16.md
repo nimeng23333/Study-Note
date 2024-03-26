@@ -1,3 +1,6 @@
+---
+title: JS Introduction - 2023-10-16
+---
 
 alert("内容"); 弹出一个警告窗口
 alert(2+3); 弹出一个显示5的警告窗口
@@ -63,7 +66,7 @@ x /=
 ```
 
 特别需要注意：
-![[Pasted image 20231016140100.png]]
+![[../../note_images/Pasted image 20231016140100.png]]
 在 var y = x++; 里面y先被赋予的x的值，然后x再增加，因此在这个等式时候y=x，x=x+1
 
 取整：

@@ -1,3 +1,6 @@
+---
+title: Next.js
+---
 
 [Next.js 备忘清单 & nextjs cheatsheet & Quick Reference](https://quickref.me/zh-CN/docs/nextjs.html)
 
@@ -15,23 +18,23 @@ next.js的路由相对后端框架或者是react-router都要简单很多，本�
 在next.js中，无法通过`/test/:id`这种参数路由的方式获取到参数，它只能通过`query`的方式获取参数，即`/test?id=xx`的方式
 
 ### 动态路由
-![[Pasted image 20240102142631.png]]
+![[../note_images/Pasted image 20240102142631.png]]
 用方括号表示动态路由
-![[Pasted image 20240102142651.png]]
+![[../note_images/Pasted image 20240102142651.png]]
 在post后面任意值都可以跳转到这个页面
 
 
 ### `<Link>`
 next.js内置的组件，用来组织网站内部链接
 
-![[Pasted image 20240102152041.png]]
+![[../note_images/Pasted image 20240102152041.png]]
 
 
 ### Auth0
 
 auth0自带hook，useUser
 console后可得到nickname，name，picture、sid、sub等信息，sub是每个用户的唯一标识，这个sub将用来识别MongoDB数据库里的用户
-![[Pasted image 20240102154656.png]]
+![[../note_images/Pasted image 20240102154656.png]]
 
 index.js:
 ```jsx
@@ -102,7 +105,7 @@ login和logout的href写"/api/auth/login"和"/api/auth/logout"
 
 next.js里外链图片需要再next.config.js里添加域名，否则不会生效
 
-![[Pasted image 20240102160658.png]]
+![[../note_images/Pasted image 20240102160658.png]]
 
 gravatar在国内被墙了，各种国内镜像试过以后唯一能用的是cravata
 `<Image src={user.picture.replace('s.gravatar.com', 'cravatar.cn')} alt={user.nickname} height={50} width={50} />`

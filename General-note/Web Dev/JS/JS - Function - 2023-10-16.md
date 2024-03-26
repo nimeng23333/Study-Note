@@ -1,3 +1,6 @@
+---
+title: JS - Function - 2023-10-16
+---
 ```
 function functionName(){
 内容
@@ -317,3 +320,21 @@ console.log(adventurer.someNonExistentMethod?.());
 // Expected output: undefined
 ```
 
+
+### 表单清空
+
+当主体是form的时候，整体form清空用reset()方法
+
+`formRef.current.reset();`
+
+
+### 获取地址、获取坐标 （浏览器内置行为）
+
+```js
+navigator.geolocation.getCurrentPosition( (position) => {
+	//回调函数
+	console.log(position.coords.latitude, position.coords.longitude)
+});
+```
+
+当获取到坐标的时候，就能执行里面的回调函数

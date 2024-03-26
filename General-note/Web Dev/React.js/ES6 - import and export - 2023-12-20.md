@@ -1,3 +1,6 @@
+---
+title: ES6 - import and export - 2023-12-20
+---
 
 es6支持import和export
 在export文件里至少有一个default export，如果你有额外需要export的内容，需要加花括号

@@ -1,3 +1,6 @@
+---
+title: Building API - 2023-11-29
+---
 API价值：1.数据收集 2.算法或服务 3.简单的接口
 
 REST：（英文：Representational State Transfer，简称REST，直译过来表现层状态转换）是一种软件架构风格、设计风格，而不是标准，只是提供了一组设计原则和约束条件。

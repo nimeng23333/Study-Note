@@ -1,3 +1,6 @@
+---
+title: Map、Filter、Reduce、Find、FindIndex函数 -2023-12-21 新增 concat、slice、splice
+---
 
 map、filter、reduce函数类似，可以看成加强版forEach循环，但里面的function需要加return
 

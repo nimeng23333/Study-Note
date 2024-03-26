@@ -1,3 +1,6 @@
+---
+title: Middlewares - 2023-10-26
+---
 中间件用来处理客户端与服务器端之间的内容，
 一般有四个功能：预处理、日志、报错、秘钥权限
 
@@ -14,7 +17,7 @@ HTML文件：
     <input type="submit" value="Submit">
   </form>
 ```
-![[Pasted image 20231026154726.png]]
+![[../../../note_images/Pasted image 20231026154726.png]]
 
 JS文件：
 ```

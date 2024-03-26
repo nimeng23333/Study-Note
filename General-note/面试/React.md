@@ -1,3 +1,7 @@
+---
+title: React
+---
+
 >1.angularJs和 React 区别
 
 框架 vs 库：AngularJS是一个完整的框架，提供了一整套解决方案，包括模板，双向数据绑定，依赖注入，路由等。而React是一个库，主要关注视图层，通常需要与其他库（如Redux进行状态管理，React Router进行路由管理）配合使用。

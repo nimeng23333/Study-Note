@@ -1,3 +1,6 @@
+---
+title: Day20 - Button Ripple Effect
+---
 
 整体思路：在button overflow为hidden的情况下，在button上点击的时候在点击的坐标点添加一个向外scale且透明度变低的圆形元素
 ### CSS - animation

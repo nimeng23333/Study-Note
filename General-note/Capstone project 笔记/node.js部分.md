@@ -1,3 +1,6 @@
+---
+title: node.js部分
+---
 
 
 #### 1.从网页获取图片存入本地文件夹
@@ -233,7 +236,7 @@ app.get("/filter",async(req,res)=>{
 Array.isArray()
 [判断是否为数组的 JavaScript 方法总结 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/402456307?utm_id=0)
 
-但在if里会报错：if (!tags.isArray()){ ^ TypeError: tags.isArray is not a function
+但在if里会报错：`if (!tags.isArray()){ ^ TypeError: tags.isArray is not a function`
 
 
 ```js

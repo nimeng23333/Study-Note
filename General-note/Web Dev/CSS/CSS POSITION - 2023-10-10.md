@@ -1,3 +1,6 @@
+---
+title: CSS POSITION - 2023-10-10
+---
 css一共有四种位置
 static position 静态，默认，会忽略任何top、bottom、left、right和z-index的声明
 relative position 相对位置，相对于其正常位置进行定位

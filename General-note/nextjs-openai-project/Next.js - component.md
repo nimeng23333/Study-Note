@@ -1,3 +1,6 @@
+---
+title: Next.js - component
+---
 
 所有的components
 都需要在components文件夹里新建一个新建夹，并包含两个文件，一个是组件名字的js文件，一个是index.js的文件

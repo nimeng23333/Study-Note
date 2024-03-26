@@ -1,3 +1,6 @@
+---
+title: React form - 2023-12-22
+---
 
 HTML的表单中的button会默认进行提交，尤其是当button的type=submit的时候
 当不想触发默认提交的时候需要写function event.preventDefault()

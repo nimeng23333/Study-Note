@@ -1,3 +1,6 @@
+---
+title: React props - 2023-12-20
+---
 在编写function的时候作为组件，传递property数据
 
 

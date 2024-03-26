@@ -1,3 +1,6 @@
+---
+title: Auth0
+---
 
 ### Auth0配置
 
@@ -10,14 +13,14 @@ AUTH0_CLIENT_ID=
 AUTH0_CLIENT_SECRET=
 ```
 
-![[Pasted image 20240102143933.png]]
+![[../note_images/Pasted image 20240102143933.png]]
 AUTH0_SECRET可以是随机值，建议在termimal通过`openssl rand -hex 32`生成一个随机32字节值
 
 AUTH0_BASE_URL是网站部署地址
 
 AUTH0_ISSUER_BASE_UR是domain，需要在前面加https://
 
-![[Pasted image 20240102152741.png]]
+![[../note_images/Pasted image 20240102152741.png]]
 http://localhost:3000/api/auth/callback
 
 在pages文件夹里的api文件夹里新建auth文件夹并新建`[...auth0].js`文件

@@ -1,3 +1,6 @@
+---
+title: Day2 - Progress Steps
+---
 
 ### CSS - 字体导入也可以在css里导入
 ```css

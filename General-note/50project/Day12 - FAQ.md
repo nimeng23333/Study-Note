@@ -1,7 +1,10 @@
+---
+title: Day12 - FAQ
+---
 ### CSS - Font Awesome
 
 [Font Awesome 方向图标 | 菜鸟教程 (runoob.com)](https://www.runoob.com/font-awesome/fontawesome-icons-directional.html)
-![[Pasted image 20231230162653.png]]
+![[../note_images/Pasted image 20231230162653.png]]
 
 _CHEVRON_翻译：（尤指警服或军装袖子上表示等级的）V形图案；（英国用作路标、表示急转弯的）V形标记。
 
@@ -19,8 +22,8 @@ version5：
 
 
 ### CSS - overflow:hidden
-![[Pasted image 20231230171322.png]]
-![[Pasted image 20231230171337.png]]
+![[../note_images/Pasted image 20231230171322.png]]
+![[../note_images/Pasted image 20231230171337.png]]
 
 在元素上设置overflow:hidden才能让超出元素边界的东西隐藏
 

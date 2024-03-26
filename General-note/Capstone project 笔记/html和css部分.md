@@ -1,3 +1,6 @@
+---
+title: html和css部分
+---
 
 #### 1.radio或者checkbox的文字也可以选择
 让radio或checkbox放在lable里面，而非lable放在input里面
@@ -40,3 +43,10 @@ input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
 }
 ```
+
+
+### TailwindCSS相关
+
+tailwindcss插件typography
+
+The `@tailwindcss/typography` plugin adds a set of `prose` classes that can be used to quickly add sensible typographic styles to content blocks that come from sources like markdown or a CMS database.

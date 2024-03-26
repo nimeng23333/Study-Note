@@ -1,3 +1,6 @@
+---
+title: MongoDB
+---
 
 [How to Integrate MongoDB Into Your Next.js App | MongoDB](https://www.mongodb.com/developer/languages/javascript/nextjs-with-mongodb/)
 
@@ -56,8 +59,8 @@ export default async function handler(req, res) {
 
 其他还有updateMany()、find()、findOne()、insertOne()、replaceOne()、deleteOne()等等
 具体操作方法由$加query语句组成的object
-比如array用$push:{ category: "art"}
-设值用$set:{"rating": 9.5}等等
+比如array用`$push:{ category: "art"}`
+设值用`$set:{"rating": 9.5}`等等
 `$lt: new Date(lastDate)` lt是小于，可以筛选小于lastDate的值
 
 

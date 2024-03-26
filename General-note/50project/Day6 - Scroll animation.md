@@ -1,3 +1,7 @@
+---
+title: Day6 - Scroll animation
+---
+
 ### JS - 为窗口添加滚动监控
 `window.addEventListener("scroll",function);`
 

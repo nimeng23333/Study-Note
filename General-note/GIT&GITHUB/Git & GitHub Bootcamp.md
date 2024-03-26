@@ -1,3 +1,7 @@
+---
+title: Git & GitHub Bootcamp
+---
+
 Push是将本地放到远程仓库
 Pull根据配置可以是fetch + merge或fetch + rebase
 Fetch是将远程仓库放到本地缓存区
@@ -31,7 +35,7 @@ cd ~
 cd ..                    回到上一级
 ```
 
-![[Pasted image 20230328165011.png]]
+![[../note_images/Pasted image 20230328165011.png]]
 
 运用git创建新文件：touch
 ```
@@ -139,14 +143,14 @@ git merge  分支名2
 
 将提示标志删除，并决定如何修改，保存，就可以git add及git commit了
 
-![[Pasted image 20230331173901.png]]
+![[../note_images/Pasted image 20230331173901.png]]
 
 # Git Diff
 
 ```
 git diff 会比较暂存区域区域与本地区域文件的区别
 ```
-![[Pasted image 20230331175956.png]]
+![[../note_images/Pasted image 20230331175956.png]]
 
 ```
 diff --git a/文件（更早版本） b/文件（更新版本）

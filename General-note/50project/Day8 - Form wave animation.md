@@ -1,3 +1,6 @@
+---
+title: Day8 - Form wave animation
+---
 
 思路：
 通过css的input的focus与否来写与他临近的label里的span的css样式，包括transform:translateX及颜色的变换
@@ -35,4 +38,4 @@ transition里的贝塞尔曲线
 
 #重要工具 贝塞尔曲线可视化工具
 [cubic-bezier(.68,-0.55,.26,1.55) ✿ cubic-bezier.com](https://cubic-bezier.com/#.68,-0.55,.26,1.55)
-![[Pasted image 20231229185301.png]]
+![[../note_images/Pasted image 20231229185301.png]]

@@ -1,3 +1,7 @@
+---
+title: Day7 - Split landing page
+---
+
 ### CSS - white-space
 CSS white-space 属性用于设置如何处理元素内的空白字符。
 ```

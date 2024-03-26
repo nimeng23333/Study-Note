@@ -1,3 +1,6 @@
+---
+title: Next.js - getServerSideProps getStaticProps
+---
 
 [Next学习(一)：getServerSideProps、getStaticProps与SSR、SSG、ISR - 掘金 (juejin.cn)](https://juejin.cn/post/7211422882251931707)
 

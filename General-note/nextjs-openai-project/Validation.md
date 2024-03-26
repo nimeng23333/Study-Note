@@ -1,3 +1,6 @@
+---
+title: Validation
+---
 
 对网站权限进行验证：
 除了之前的验证用户，在new页面验证是否有token，没有就redirect到topup页面

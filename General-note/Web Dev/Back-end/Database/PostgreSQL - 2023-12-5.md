@@ -1,3 +1,6 @@
+---
+title: PostgreSQL - 2023-12-5
+---
 
 ```SQL
 CREAT TABLE xxx (
@@ -35,7 +38,7 @@ db.query("SELECT * FROM capitals", (err, res) =>{
 })
 ```
 
-![[Pasted image 20231206172921.png]]
+![[../../../note_images/Pasted image 20231206172921.png]]
 
 在js代码中pg提供$n作为占位符
 ```js

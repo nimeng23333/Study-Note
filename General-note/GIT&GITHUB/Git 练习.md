@@ -1,5 +1,8 @@
+---
+title: Git 练习
+---
 
-![[Pasted image 20230328225610.png]]
+![[../note_images/Pasted image 20230328225610.png]]
 ```
 Administrator@REBECCA-DESKTOP2023 MINGW64 /e/github/Study-Note (main)
 $ cd ..

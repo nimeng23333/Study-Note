@@ -1,3 +1,6 @@
+---
+title: Git diff 练习
+---
 # Git Diff Exercise
 
 This exercise comes with a starter repo that you will need to clone down to your machine. We will be working with two bands: Queen and Fleetwood Mac and their various lineups over the years.
@@ -28,6 +31,7 @@ git clone <https://github.com/Colt/git-diff-exercise>
 
 # 操作
 
+```
 Administrator@REBECCA-DESKTOP2023 MINGW64 /e/Udemy/Git&Github Bootcamp/Exercise
 $ cd git-diff-exercise/
 
@@ -206,3 +210,4 @@ index 0e0fa0d..7e183d5 100644
  Bass: Neil Fairclough
  Drums: Roger Taylor
 \ No newline at end of file
+```
