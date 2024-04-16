@@ -293,7 +293,7 @@ const slugs = allNotes.map((note) => {return {slug:note.slug}})
 
 排序前
 
-![](note_images/Pasted%20image%2020240326170936.png)
+![](/note_images/Pasted%20image%2020240326170936.png)
 
 
 排序后

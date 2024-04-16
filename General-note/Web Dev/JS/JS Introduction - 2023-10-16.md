@@ -66,7 +66,8 @@ x /=
 ```
 
 特别需要注意：
-![[../../note_images/Pasted image 20231016140100.png]]
+![](/note_images/Pasted%20image%2020231016140100.png)
+
 在 var y = x++; 里面y先被赋予的x的值，然后x再增加，因此在这个等式时候y=x，x=x+1
 
 取整：

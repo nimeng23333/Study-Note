@@ -217,3 +217,12 @@ export default function useMDXComponents(components){
 
 [如何使youtube iframe嵌入的视频自适应 （100%宽度） – 微言 (cellmean.com)](https://www.cellmean.com/%E5%A6%82%E4%BD%95%E4%BD%BFyoutube-iframe%E5%B5%8C%E5%85%A5%E7%9A%84%E8%A7%86%E9%A2%91%E8%87%AA%E9%80%82%E5%BA%94-%EF%BC%88100%E5%AE%BD%E5%BA%A6%EF%BC%89)
 
+
+## Markdown 语法
+### 图片
+
+`[![public_apis](/images/public_apis/截图.png )](https://public-apis-search-tool.vercel.app/)`
+带链接的图片
+
+`![arch](/images/arch/封面.jpg)`
+普通图片

@@ -1,5 +1,5 @@
 ---
-title: JS - Function - 2023-10-16
+title: JS - Function
 ---
 ```
 function functionName(){
@@ -328,7 +328,7 @@ console.log(adventurer.someNonExistentMethod?.());
 `formRef.current.reset();`
 
 
-### 获取地址、获取坐标 （浏览器内置行为）
+### 获取地址、获取坐标 （浏览器内置行为）详见navigator
 
 ```js
 navigator.geolocation.getCurrentPosition( (position) => {
@@ -338,3 +338,21 @@ navigator.geolocation.getCurrentPosition( (position) => {
 ```
 
 当获取到坐标的时候，就能执行里面的回调函数
+
+
+### `indexOf()`方法
+indexOf() 方法可返回某个指定的字符串值在字符串中首次出现的位置。
+
+如果没有找到匹配的字符串则返回 -1。
+
+```js
+
+var str="Hello world, welcome to the universe.";
+var n=str.indexOf("welcome"); //13
+
+
+var str="Hello world, welcome to the universe.";
+var n=str.indexOf("e",5); // 在字符串第五个位置开始查找字符 "e" 第一次出现的位置: 14
+
+
+```
