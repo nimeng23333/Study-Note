@@ -19,6 +19,9 @@ description: Vite构建的React网站部署到Vercel指南
   }
 ```
 
+**更新步骤在第一步新建vercel.json文件后直接跳转到第四步，可完成部署，二三步都可不看**
+
+
 第二步：Vercel网页上通过链接github，import 仓库来新建项目，构建设置选Vite
 
 ![](/note_images/Pasted%20image%2020240327185458.png)

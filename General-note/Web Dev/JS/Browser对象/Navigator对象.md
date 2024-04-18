@@ -20,3 +20,12 @@ function showPosition(position) {
   "Longitude: " + position.coords.longitude;
 }
 ```
+
+
+```jsx
+	navigator.geolocation.getCurrentPosition((position)=>
+	{console.log(position.coords.latitude, position.coords.longitude)
+	});
+```
+接受一个函数，该函数将在将来一旦位置被提取的时候立刻由浏览器执行。
+这里不能用async await只需要一个回调函数
