@@ -87,3 +87,25 @@ console.log(travelPlans.tuesday?.location) // => undefined
 # `?:`三元运算符
 
 不多赘述，参考以前笔记
+
+# `||=`逻辑或赋值
+
+逻辑或赋值（`x ||= y`）运算仅在 `x` 为假值时为其赋值。
+```js
+const a = { duration: 50, title: '' };
+
+a.duration ||= 10;
+console.log(a.duration);
+// Expected output: 50
+
+a.title ||= 'title is empty.';
+console.log(a.title);
+// Expected output: "title is empty."
+```
+
+# 数学赋值
+`+=` 加
+`-=` 减
+`*=` 乘
+`**=` 幂
+`/=` 除

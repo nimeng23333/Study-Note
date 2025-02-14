@@ -40,3 +40,40 @@ console.log(arr5); // [{name: "Charlie"}, {name: "Bob"}]
 const array = [[1,2,3],[4,5,6],[7,8,9]]
 const copyArray = [...array.map((innerArray)=> [...innerArray])];
 ```
+
+方法 1：递归方法
+概述
+由于这是一个深度嵌套结构，解决方法中将涉及一些重复步骤，因此递归是解决此问题的合适方法。
+
+算法
+我们创建一个递归函数 flattening，该函数接受数组 nums 和层级 l 作为参数。
+
+在 flattening 中，我们使用 for...of 循环来迭代 nums 数组的元素。
+
+对于每个元素，我们检查它是否是数组以及层级 l 是否在指定范围内（l > 0 且 l <= n）。
+
+如果元素是数组且满足层级条件，我们会递归调用 flattening，并将嵌套数组和层级减小 1（即 l - 1）传递给它。
+
+如果元素不是数组或层级条件不满足，我们将元素推送到结果数组 res 中。
+
+最初，我们使用数组 arr 和深度 n 作为参数调用 flattening 函数以启动扁平化过程。
+
+最后，将包含扁平化元素的 res 数组作为结果返回。
+
+```js
+var flat = function(arr,n){
+	const res = [];
+
+	const flatten = (nums, level) =>{
+		for(const num of nums){
+			if(Array.isArray(num) && level > 0){
+				flatten(num,level - 1 )
+			}else{
+				res.push(num)
+			}
+		}
+	}
+	flatten(arr,n)
+	return res
+}
+```
