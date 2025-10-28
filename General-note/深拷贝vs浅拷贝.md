@@ -77,3 +77,83 @@ var flat = function(arr,n){
 	return res
 }
 ```
+
+# 手写深拷贝
+
+```js
+function deepClone(obj, map = new WeakMap()){
+	//1.判断是否为对象
+	if(obj === null || typeof obj !== "object"){
+		return obj
+	}
+	//2.判断特殊对象
+	if(obj instanceof Date){
+		return new Date(obj)
+	}
+	if(obj instanceof RegExp){
+		return new RegExp(obj)
+	}
+	
+	//3.处理循环引用，避免无限递归
+	if(map.has(obj)){
+		return map.get(obj)
+	}
+	
+	//4.初始化对象，数组为[]，对象为[]
+	const cloneObj = Array.isArray(obj) ? [] : {};
+	
+	//保持引用关系
+	map.set(obj, cloneObj)
+	
+	//5.递归拷贝
+	for(const key in obj){
+		if(Object.prototype.hasOwnProperty.call(obj, key)){ //检查一个对象自身是否包含某个特定的属性，而不是继承自原型链的属性。
+			cloneObj[key] = deepClone(obj[key], map)
+		}
+	}
+	
+	return cloneObj
+}
+```
+
+### Object.prototype.hasOwnProperty.call(obj, key)为什么需要这个检查？
+
+在 JavaScript 中，当你使用 `for...in` 循环遍历一个对象时，它不仅会遍历对象自身的属性，还会遍历其**原型链**上可枚举的属性。
+`Object.prototype.hasOwnProperty.call(obj, key)` 是一种安全且通用的写法，它能够**只遍历对象自身的属性**，从而确保深拷贝的正确性。它能有效地避免原型链上的属性被错误地拷贝到新对象中，保证了函数的健壮性。
+
+`Object.prototype.hasOwnProperty.call(obj, key)` 等价于`obj.hasOwnProperty(key)` 
+`obj.hasOwnProperty(key)` 这种写法依赖于 `obj` 对象本身是否拥有 `hasOwnProperty` 这个方法。如果 `obj` 对象是一个自定义的对象，并且它重写（覆盖）了 `hasOwnProperty` 方法，那么这种写法可能会得到错误的结果。当然在大多数现代项目中，可能很少会遇到重写 `hasOwnProperty` 的情况。使用 `Object.prototype.hasOwnProperty.call()` 是一种**防御性编程**。
+
+```js
+function deepClone(obj, map = new WeakMap()){
+	//1.检查是否为非对象
+	if(obj === null || typeof obj !== "object"){
+		return obj
+	}
+	//2.检查特殊对象
+	if(obj instanceof Date){
+		return new Date(obj)
+	}
+	if(obj instanceof RegExp){
+		return new RegExp(obj)
+	}
+	
+	//3.避免循环引用
+	if(map.has(obj)){
+		return map.get(obj)
+	}
+	
+	//4.初始化
+	const cloneObj = Array.isArray(obj) ? [] : {}
+	map.set(obj, cloneObj)
+	
+	//5.递归拷贝
+	for(const key in obj){
+		if(obj.hasOwnProperty(key)){
+			cloneObj[key] = deepClone(obj[key], map)
+		}
+	}
+	
+	return cloneObj
+}
+```

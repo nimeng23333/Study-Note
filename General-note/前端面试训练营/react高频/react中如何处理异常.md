@@ -1,0 +1,11 @@
+---
+title: react中如何处理异常
+---
+使用try-catch语句来捕获异常，并在ErrorBoundary组件里处理这些异常。
+ErrorBoundary是react提供的一种机制，用于捕获子组件渲染时的错误，防止整个组件树的崩溃，在错误的时候使用备用UI。
+
+try-catch语句捕获异常，如果对单个组件进行异常处理需要在render里手写try-catch
+
+ErrorBoundary组件，捕获错误的子组件作为ErrorBoundary的子组件，在组件内使用componentDidCatch来捕获异常并显示备用UI
+
+componentDidCatch方法：是一个生命周期方法，用于捕获子组件渲染时的异常。在componentDidCatch方法中可以用setState来更新组件状态。
