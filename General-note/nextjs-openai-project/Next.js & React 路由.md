@@ -1,6 +1,3 @@
----
-title: Next.js & React 路由
----
 
 ## useRouter hook 与 redirect
 
