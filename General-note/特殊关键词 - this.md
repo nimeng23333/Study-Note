@@ -57,7 +57,7 @@ new new Foo().getName() //3
 ### 逐行解析
 
 #### 1. `Foo.getName();`
-- **解析：** 这直接调用了作为**构造函数 $\text{Foo}$ 的静态属性**的函数。
+- **解析：** 这直接调用了作为**构造函数 Foo的静态属性**的函数。
 - **执行：** 调用 `Foo.getName = function () { console.log(2); }`。
 - **输出：** `2`
 
@@ -81,18 +81,18 @@ function Foo() {
 }
 ```
 
-- **`this` 绑定：** $\text{Foo()}$ 作为普通函数调用，`this` 默认指向**全局对象**（在浏览器中是 $\text{window}$，非严格模式下）。
+- **`this` 绑定：** Foo()作为普通函数调用，`this` 默认指向**全局对象**（在浏览器中是 window}$，非严格模式下）。
 - **全局污染：** 里面的 `getName = function () { console.log(1); };` 因为没有使用 `var/let/const` 声明，会向上查找作用域直到全局，并在全局作用域中**重新定义** `getName` 函数，将其值变为 `console.log(1)`。
-- **返回值：** 返回 `this`，即**全局对象**（$\text{window}$）。
+- **返回值：** 返回 `this`，即**全局对象**（window}$）。
 
 ##### B. `.getName()`
 - **解析：** 相当于调用 `window.getName()`（即**全局**的 `getName()`）。
-- **执行：** 调用刚刚被修改为 $\text{console.log(1)}$ 的全局函数。
+- **执行：** 调用刚刚被修改为 console.log(1)的全局函数。
 - **输出：** `1`
     
 #### 4. `getName();`
 - **解析：** 再次调用全局作用域中的 `getName` 函数。
-- **执行：** 由于上一步 $\text{Foo()}$ 的副作用，全局 `getName` 已经被修改为 $\text{console.log(1)}$。
+- **执行：** 由于上一步 Foo()的副作用，全局 `getName` 已经被修改为 console.log(1)}$。
 - **输出：** `1`
 
 #### 5. `new Foo.getName();`
@@ -100,35 +100,35 @@ function Foo() {
 分两步：
 ##### A. `Foo.getName`
 
-- **解析：** 这是一个属性访问操作，取到的是作为 $\text{Foo}$ 静态属性的函数 $\text{console.log(2)}$。
+- **解析：** 这是一个属性访问操作，取到的是作为 Foo静态属性的函数 console.log(2)}$。
 ##### B. `new (...)`
 
-- **解析：** 使用 $\text{new}$ 关键字将步骤 $\text{A}$ 取到的函数作为构造函数调用。
-- **执行：** 构造函数 `Foo.getName` 被调用。构造函数默认没有返回值，`new` 会创建一个新对象，并返回它。同时，函数内部的 $\text{console.log(2)}$ 会被执行。
+- **解析：** 使用 new关键字将步骤 A取到的函数作为构造函数调用。
+- **执行：** 构造函数 `Foo.getName` 被调用。构造函数默认没有返回值，`new` 会创建一个新对象，并返回它。同时，函数内部的 console.log(2)会被执行。
 - **输出：** `2`
     
 #### 6. `new Foo().getName()`
 
 分两步：
 ##### A. `new Foo()` (作为构造函数调用)
-- **`this` 绑定：** $\text{new}$ 关键字会创建一个新对象，并将 `Foo` 内部的 `this` 绑定到这个新对象上。
-- **内部执行：** * `getName = function () { console.log(1); };` 再次执行，它仍然会修改**全局**的 `getName` 为 $\text{console.log(1)}$，但这不影响当前 $\text{new}$ 出来的对象。
+- **`this` 绑定：** new关键字会创建一个新对象，并将 `Foo` 内部的 `this` 绑定到这个新对象上。
+- **内部执行：** * `getName = function () { console.log(1); };` 再次执行，它仍然会修改**全局**的 `getName` 为 console.log(1)}，但这不影响当前 new出来的对象。
     - 构造函数返回 `this`（即新创建的对象）。
-- **新对象属性：** 新对象继承了 $\text{Foo.prototype}$ 上的所有属性，包括 `getName`。
+- **新对象属性：** 新对象继承了 Foo.prototype上的所有属性，包括 `getName`。
     
 ##### B. `.getName()`
-- **解析：** 调用新创建的 $\text{Foo}$ 实例对象上的 `getName` 方法。
+- **解析：** 调用新创建的 Foo实例对象上的 `getName` 方法。
 - **执行：** 实例对象本身没有 `getName` 属性，它会通过**原型链**查找，找到 `Foo.prototype.getName`。
 - **输出：** `3`
 
 #### 7. `new new Foo().getName()`
 分两步：
 ##### A. `new Foo().getName()`
-- **解析：** 与上一步完全相同。返回一个**函数**：即 `Foo.prototype.getName`（$\text{console.log(3)}$）。
+- **解析：** 与上一步完全相同。返回一个**函数**：即 `Foo.prototype.getName`（console.log(3)}$）。
 
 ##### B. `new (...)`
-- **解析：** 使用 $\text{new}$ 关键字将 $\text{Foo.prototype.getName}$ 函数作为构造函数调用。
-- **执行：** $\text{Foo.prototype.getName}$ 函数被调用。函数内部的 $\text{console.log(3)}$ 被执行。
+- **解析：** 使用 new 关键字将 Foo.prototype.getName 函数作为构造函数调用。
+- **执行：** Foo.prototype.getName函数被调用。函数内部的 console.log(3)被执行。
 - **输出：** `3`
     
 ### 完整输出列表
@@ -136,21 +136,21 @@ function Foo() {
 |**表达式**|**解释**|**输出**|
 |---|---|---|
 |`Foo.getName()`|静态方法调用|**2**|
-|`getName()`|全局函数调用（值为 $\text{log(4)}$）|**4**|
-|`Foo().getName()`|$\text{Foo()}$ 修改全局 $\text{getName}$ 为 $\text{log(1)}$，并返回 $\text{window}$，然后调用 $\text{window.getName}$|**1**|
-|`getName()`|全局函数调用（已被修改为 $\text{log(1)}$）|**1**|
-|`new Foo.getName()`|将静态方法 $\text{log(2)}$ 作为构造函数调用|**2**|
-|`new Foo().getName()`|调用 $\text{Foo}$ 实例的原型方法 $\text{log(3)}$|**3**|
-|`new new Foo().getName()`|调用原型方法 $\text{log(3)}$，再将它作为构造函数调用|**3**|
+|`getName()`|全局函数调用（值为 log(4)}$）|**4**|
+|`Foo().getName()`|Foo()修改全局 getName为 log(1)}$，并返回 window}$，然后调用 window.getName}$|**1**|
+|`getName()`|全局函数调用（已被修改为 log(1)}$）|**1**|
+|`new Foo.getName()`|将静态方法 log(2)作为构造函数调用|**2**|
+|`new Foo().getName()`|调用 Foo实例的原型方法 log(3)}$|**3**|
+|`new new Foo().getName()`|调用原型方法 log(3)}$，再将它作为构造函数调用|**3**|
 
-静态属性上的 $\text{getName}$ 和 $\text{prototype}$ 上的 $\text{getName}$ 是 $\text{JavaScript}$ 中定义类（构造函数）方法最主要的两种方式，它们在使用目的、调用方式以及与实例的关系上有着本质的区别。
+静态属性上的 getName和 prototype上的 getName是 JavaScript中定义类（构造函数）方法最主要的两种方式，它们在使用目的、调用方式以及与实例的关系上有着本质的区别。
 
 | **特性**        | **静态属性 (Foo.getName)**                                 | **原型属性 (Foo.prototype.getName)**                       |
 | ------------- | ------------------------------------------------------ | ------------------------------------------------------ |
-| **定义位置**      | 直接定义在**构造函数** $\text{Foo}$ 对象上。                        | 定义在 $\text{Foo}$ 构造函数的**原型对象** ($\text{prototype}$) 上。 |
+| **定义位置**      | 直接定义在**构造函数** Foo对象上。                        | 定义在 Foo构造函数的**原型对象** (prototype}$) 上。 |
 | **调用方式**      | 只能通过**构造函数本身**调用。                                      | 只能通过**该构造函数创建的实例对象**调用。                                |
 | **与实例的关系**    | **与实例对象无关**。实例对象不能直接调用静态方法。                            | 是**实例对象**共享的方法。所有实例都可以访问并调用它。                          |
-| **`this` 指向** | 调用时，`this` 指向**构造函数 $\text{Foo}$ 本身**（即 $\text{Foo}$）。 | 调用时，`this` 指向**调用该方法的实例对象**。                           |
+| **`this` 指向** | 调用时，`this` 指向**构造函数 Foo本身**（即 Foo}$）。 | 调用时，`this` 指向**调用该方法的实例对象**。                           |
 | **使用目的**      | **与类/构造函数整体相关**的操作，例如：工具函数、创建实例的工厂方法等。                 | **与单个实例数据相关**的操作，例如：获取实例的属性、修改实例的状态等。                  |
 
 假设我们正在构建一个日志系统，我们希望限制在应用程序生命周期内可以记录的最大日志数量。
@@ -203,7 +203,7 @@ console.log(Logger.getStatus());
 // 实例不能访问静态属性
 console.log(userLogger.MAX_LOGS); // 输出: undefined
 ```
-在 $\text{JavaScript}$ 中，`Promise.all()`, `Promise.race()`, `Object.keys()`, `Array.isArray()` 等都是非常常用的静态方法。
+在 JavaScript中，`Promise.all()`, `Promise.race()`, `Object.keys()`, `Array.isArray()` 等都是非常常用的静态方法。
 
 
 ```js

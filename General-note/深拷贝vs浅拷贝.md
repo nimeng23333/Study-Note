@@ -50,7 +50,7 @@ const copyArray = [...array.map((innerArray)=> [...innerArray])];
 
 在 flattening 中，我们使用 for...of 循环来迭代 nums 数组的元素。
 
-对于每个元素，我们检查它是否是数组以及层级 l 是否在指定范围内（l > 0 且 l <= n）。
+对于每个元素，我们检查它是否是数组以及层级 l 是否在指定范围内`（l > 0 且 l <= n）`。
 
 如果元素是数组且满足层级条件，我们会递归调用 flattening，并将嵌套数组和层级减小 1（即 l - 1）传递给它。
 

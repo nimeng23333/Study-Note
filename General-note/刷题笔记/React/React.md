@@ -107,12 +107,12 @@ ref 就是“稳定引用 + 可变内容”，可以类比为const arr，可以�
 
 #### 结构辅助
 
-|API|作用|
-|---|---|
-|`React.Fragment` / `<>...</>`|返回多个元素而不添加额外 DOM|
-|`React.StrictMode`|开启开发时额外检查|
-|`React.Suspense`|异步组件加载占位符|
-|`React.lazy`|懒加载组件|
+| API                           | 作用               |
+| ----------------------------- | ---------------- |
+| `React.Fragment` / `<>...</>` | 返回多个元素而不添加额外 DOM |
+| `React.StrictMode`            | 开启开发时额外检查        |
+| `React.Suspense`              | 异步组件加载占位符        |
+| `React.lazy`                  | 懒加载组件            |
 
 ### ReactDOM 常见 API（DOM 渲染层）
 
@@ -164,9 +164,9 @@ onClick = {()=> this.handleClick()}
 
 事件绑定this的方法有四种： （1）render方法中使用bind； （2）render方法中使用箭头函数；（3）constructor中bind； （4）定义阶段使用箭头函数绑定；
 
-选项 B：onClick={ this.handleClick()}点击之前就会触发handleClick()
-选项 C：onClick={ this.handleClick}handleClick 方法中的 this 指向会丢失。
-选项 D：onclick={ handleClick}应该是onClick
+选项 B：`onClick={ this.handleClick()}`点击之前就会触发`handleClick()`
+选项 C：`onClick={ this.handleClick}`handleClick 方法中的 this 指向会丢失。
+选项 D：`onclick={ handleClick}`应该是onClick
 
 # 7. React复合输入事件有onCompositionEnd，onCompositionStart，onCompositionUpdate
 
@@ -176,9 +176,9 @@ compositionstart：组合输入开始
 compositionupdate：组合输入更新
 compositionend：组合输入结束
 
-# 8.在 React 中，JSX 无法直接渲染 JavaScript 对象（如 { name: 'John' }），因为对象不是有效的 React 子元素。React 会在控制台抛出错误，例如 'Uncaught Error: Objects are not valid as a React child'
+# 8.在 React 中，JSX 无法直接渲染 JavaScript 对象（如 `{ name: 'John' }`），因为对象不是有效的 React 子元素。React 会在控制台抛出错误，例如 'Uncaught Error: Objects are not valid as a React child'
 
-# 9.<Route />中的path属性可以使用的通配符
+# 9.`<Route />`中的path属性可以使用的通配符
 |语法|含义|示例|匹配路径|
 |---|---|---|---|
 |`:param`|动态参数|`/user/:id`|`/user/123`、`/user/abc`|
@@ -219,7 +219,7 @@ Greeting.propTypes = { name: PropTypes.string.isRequired };
 
 # 11.可以使子节点渲染到存在于父组件以外的DOM节点上的方法是
   
-ReactDOM.createPortal
+`ReactDOM.createPortal`
 
 # 12.在React上下文(Context)中，若Provider的value属性使用字面量对象直接赋值，如`value={{ theme: 'dark' }}`，会导致消费组件必然每次渲染都重新渲染
 
