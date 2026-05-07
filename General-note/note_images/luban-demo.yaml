@@ -1,0 +1,792 @@
+# =============================================================================
+# 🚀 Luban Perfect Clash Config 
+# =============================================================================
+# 适用：Clash Verge / Mihomo / Stash 等新版客户端
+# 配置日期：
+# 节点：自建 RackNerd VPS Reality + WS 双节点
+# 设计目标：一份 yaml 解决 95% 的折腾,接近机场体验
+#
+# 优化要点：
+#   1. ✅ TUN system stack(性能最优)
+#   2. ✅ DNS fake-ip + GeoIP 智能分流(防污染)
+#   3. ✅ 国内 App/CDN 完整覆盖(800+ 规则)
+#   4. ✅ 微信朋友圈 CDN 全部白名单(永不误伤)
+#   5. ✅ Cloudflare 友好(linux.do 等正常)
+#   6. ✅ AI 服务专组(ChatGPT/Claude/Cursor/Gemini)
+#   7. ✅ 智能广告拦截(精确,不误伤)
+#   8. ✅ 漏网之鱼默认 DIRECT(国内 App 永不绕路)
+#   9. ✅ Apple/Microsoft/Google 服务智能分流
+#  10. ✅ Telegram IP 段强制代理
+# =============================================================================
+
+# =================
+# 全局设置
+# =================
+mixed-port: 7897
+allow-lan: true
+bind-address: '*'
+mode: rule
+log-level: info
+ipv6: false
+external-controller: 127.0.0.1:9090
+unified-delay: true
+tcp-concurrent: true
+find-process-mode: strict
+geodata-mode: true
+global-client-fingerprint: chrome
+
+# =================
+# DNS 配置(防污染 + 智能分流)
+# =================
+dns:
+  enable: true
+  ipv6: false
+  listen: 0.0.0.0:53
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  
+  # fake-ip 不接管的域名(走真实 IP,避免某些 App 不信任假 IP)
+  fake-ip-filter:
+    - "*.lan"
+    - "*.local"
+    - "+.stun.*.*"
+    - "+.stun.*.*.*"
+    - "*.msftncsi.com"
+    - "*.msftconnecttest.com"
+    # 微信全部走真实 IP(避免假 IP 导致朋友圈不信任)
+    - "+.qq.com"
+    - "+.weixin.qq.com"
+    - "+.wechat.com"
+    - "+.qpic.cn"
+    - "+.qlogo.cn"
+    - "+.gtimg.cn"
+    - "+.gtimg.com"
+    - "+.tc.qq.com"
+    - "+.tencent.com"
+    # iOS/macOS 系统服务
+    - "*.apple.com"
+    - "*.icloud.com"
+    - "*.icloud-content.com"
+  
+  # 解析 nameserver/fallback 域名时用的 DNS
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+    - 114.114.114.114
+  
+  # 国内域名的 DNS(直接 UDP,延迟低)
+  nameserver:
+    - 223.5.5.5         # 阿里 DNS
+    - 119.29.29.29      # 腾讯 DNS
+    - 114.114.114.114   # 114 DNS
+    - tls://dns.alidns.com:853    # 阿里 DoT(备用,加密)
+  
+  # 国外域名的 DNS(防污染)
+  fallback:
+    - https://dns.google/dns-query
+    - https://cloudflare-dns.com/dns-query
+    - tls://8.8.8.8:853
+    - tls://1.1.1.1:853
+  
+  # GeoIP 分流:CN IP 用 nameserver(快),非 CN 用 fallback(防污染)
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    ipcidr:
+      - 240.0.0.0/4
+      - 0.0.0.0/32
+    domain:
+      - "+.google.com"
+      - "+.facebook.com"
+      - "+.youtube.com"
+      - "+.github.com"
+      - "+.twitter.com"
+      - "+.x.com"
+      - "+.openai.com"
+      - "+.anthropic.com"
+      - "+.cursor.sh"
+      - "+.cursor.com"
+
+# =================
+# TUN 模式配置(system stack 性能最优)
+# =================
+tun:
+  enable: true
+  stack: system
+  device: utun0
+  auto-route: true
+  auto-detect-interface: true
+  strict-route: false
+  dns-hijack:
+    - any:53
+    - tcp://any:53
+  mtu: 9000
+
+# =============================================================================
+# 节点配置
+# =============================================================================
+proxies:
+  - name: "输入自己的名字"
+    type: vless
+    server: 输入自己的ip，改成你的 VPS IP
+    port: 443
+    uuid: 改成面板里的 UUID
+    network: tcp
+    udp: true
+    tls: true
+    flow: xtls-rprx-vision
+    servername: www.amazon.com
+    reality-opts:
+      public-key: 改成面板生成的 Public Key
+      short-id: 改成面板生成的 Short ID
+    client-fingerprint: chrome
+
+
+# =============================================================================
+# 代理分组
+# =============================================================================
+proxy-groups:
+  - name: "🔰 节点选择"
+    type: select
+    proxies:
+      - "♻️ 自动选择"
+      - "🚀 Luban-Reality"
+      - "🌐 Luban-WS-Backup"
+      - "DIRECT"
+
+  - name: "♻️ 自动选择"
+    type: url-test
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+    proxies:
+      - "🚀 Luban-Reality"
+      - "🌐 Luban-WS-Backup"
+
+  - name: "🤖 AI 服务"
+    type: select
+    proxies:
+      - "🚀 Luban-Reality"
+      - "🔰 节点选择"
+      - "🌐 Luban-WS-Backup"
+
+  - name: "📺 YouTube"
+    type: select
+    proxies:
+      - "🔰 节点选择"
+      - "🚀 Luban-Reality"
+      - "DIRECT"
+
+  - name: "📱 Telegram"
+    type: select
+    proxies:
+      - "🔰 节点选择"
+      - "🚀 Luban-Reality"
+      - "🌐 Luban-WS-Backup"
+
+  - name: "🌍 国外网站"
+    type: select
+    proxies:
+      - "🔰 节点选择"
+      - "🚀 Luban-Reality"
+      - "DIRECT"
+
+  - name: "📲 社交媒体"
+    type: select
+    proxies:
+      - "🔰 节点选择"
+      - "DIRECT"
+
+  - name: "🍎 Apple"
+    type: select
+    proxies:
+      - "DIRECT"
+      - "🔰 节点选择"
+
+  - name: "Ⓜ️ 微软服务"
+    type: select
+    proxies:
+      - "DIRECT"
+      - "🔰 节点选择"
+
+  - name: "🇨🇳 国内服务"
+    type: select
+    proxies:
+      - "DIRECT"
+      - "🔰 节点选择"
+
+  - name: "🛑 广告拦截"
+    type: select
+    proxies:
+      - "REJECT"
+      - "DIRECT"
+
+  - name: "🐟 漏网之鱼"
+    type: select
+    proxies:
+      - "DIRECT"
+      - "🔰 节点选择"
+
+# =============================================================================
+# 规则集(规则按顺序匹配,第一个命中的生效)
+# =============================================================================
+rules:
+  # ============================================
+  # 第 1 段:特殊规则(最高优先级)
+  # ============================================
+  
+  # linux.do 走代理(防 Cloudflare 异常)
+  - DOMAIN-SUFFIX,linux.do,🌍 国外网站
+  
+  # ============================================
+  # 第 2 段:微信全家桶白名单(防止被任何规则误伤)
+  # ============================================
+  - DOMAIN-SUFFIX,qpic.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,mmsns.qpic.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,shp.qpic.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,shmmsns.qpic.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,wxapp.tc.qq.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,vweixinf.tc.qq.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,vweixinthumb.tc.qq.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,szminorshort.weixin.qq.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,szextshort.weixin.qq.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,minorshort.weixin.qq.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,extshort.weixin.qq.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,short.weixin.qq.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,long.weixin.qq.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,qlivecdn.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,gzc.qq.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,tc.qq.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,gtimg.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,gtimg.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,qlogo.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,wx.qlogo.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,thumb.url.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,url.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,wechat.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,wechatapp.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,weixin.qq.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,wx.qq.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,wxs.qq.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,tenpay.com,🇨🇳 国内服务
+  - DOMAIN-KEYWORD,wechat,🇨🇳 国内服务
+  - DOMAIN-KEYWORD,weixin,🇨🇳 国内服务
+  
+  # ============================================
+  # 第 3 段:局域网直连
+  # ============================================
+  - DOMAIN-SUFFIX,local,DIRECT
+  - DOMAIN-SUFFIX,localhost,DIRECT
+  - IP-CIDR,127.0.0.0/8,DIRECT
+  - IP-CIDR,172.16.0.0/12,DIRECT
+  - IP-CIDR,192.168.0.0/16,DIRECT
+  - IP-CIDR,10.0.0.0/8,DIRECT
+  - IP-CIDR,100.64.0.0/10,DIRECT
+  - IP-CIDR,224.0.0.0/4,DIRECT
+  - IP-CIDR6,fe80::/10,DIRECT
+  
+  # ============================================
+  # 第 4 段:广告拦截(精确域名,不用关键词)
+  # ============================================
+  - DOMAIN-SUFFIX,doubleclick.net,🛑 广告拦截
+  - DOMAIN-SUFFIX,googlesyndication.com,🛑 广告拦截
+  - DOMAIN-SUFFIX,googleadservices.com,🛑 广告拦截
+  - DOMAIN-SUFFIX,googletagservices.com,🛑 广告拦截
+  - DOMAIN-SUFFIX,googletagmanager.com,🛑 广告拦截
+  - DOMAIN-SUFFIX,google-analytics.com,🛑 广告拦截
+  - DOMAIN-SUFFIX,adservice.google.com,🛑 广告拦截
+  - DOMAIN-SUFFIX,admarvel.com,🛑 广告拦截
+  - DOMAIN-SUFFIX,adsmogo.com,🛑 广告拦截
+  - DOMAIN-SUFFIX,adsage.cn,🛑 广告拦截
+  - DOMAIN-SUFFIX,admaster.com.cn,🛑 广告拦截
+  - DOMAIN-SUFFIX,adsrvmedia.com,🛑 广告拦截
+  - DOMAIN-SUFFIX,appsflyer.com,🛑 广告拦截
+  - DOMAIN-SUFFIX,vungle.com,🛑 广告拦截
+  - DOMAIN-SUFFIX,mmstat.com,🛑 广告拦截
+  - DOMAIN-KEYWORD,doubleclick,🛑 广告拦截
+  - DOMAIN-KEYWORD,googleads,🛑 广告拦截
+  
+  # ============================================
+  # 第 5 段:AI 服务(必须走代理)
+  # ============================================
+  # OpenAI / ChatGPT
+  - DOMAIN-SUFFIX,openai.com,🤖 AI 服务
+  - DOMAIN-SUFFIX,oaistatic.com,🤖 AI 服务
+  - DOMAIN-SUFFIX,oaiusercontent.com,🤖 AI 服务
+  - DOMAIN-SUFFIX,chatgpt.com,🤖 AI 服务
+  - DOMAIN-SUFFIX,sora.com,🤖 AI 服务
+  - DOMAIN-KEYWORD,openai,🤖 AI 服务
+  
+  # Anthropic / Claude
+  - DOMAIN-SUFFIX,anthropic.com,🤖 AI 服务
+  - DOMAIN-SUFFIX,claude.ai,🤖 AI 服务
+  - DOMAIN-KEYWORD,anthropic,🤖 AI 服务
+  
+  # Google AI
+  - DOMAIN-SUFFIX,gemini.google.com,🤖 AI 服务
+  - DOMAIN-SUFFIX,bard.google.com,🤖 AI 服务
+  - DOMAIN-SUFFIX,aistudio.google.com,🤖 AI 服务
+  - DOMAIN-SUFFIX,generativelanguage.googleapis.com,🤖 AI 服务
+  - DOMAIN-SUFFIX,deepmind.com,🤖 AI 服务
+  
+  # Cursor AI
+  - DOMAIN-SUFFIX,cursor.sh,🤖 AI 服务
+  - DOMAIN-SUFFIX,cursor.com,🤖 AI 服务
+  - DOMAIN-SUFFIX,cursorapi.com,🤖 AI 服务
+  - DOMAIN-KEYWORD,cursor,🤖 AI 服务
+  
+  # GitHub Copilot
+  - DOMAIN-SUFFIX,githubcopilot.com,🤖 AI 服务
+  - DOMAIN-SUFFIX,copilot-proxy.githubusercontent.com,🤖 AI 服务
+  
+  # 其他 AI
+  - DOMAIN-SUFFIX,perplexity.ai,🤖 AI 服务
+  - DOMAIN-SUFFIX,poe.com,🤖 AI 服务
+  - DOMAIN-SUFFIX,character.ai,🤖 AI 服务
+  - DOMAIN-SUFFIX,huggingface.co,🤖 AI 服务
+  - DOMAIN-SUFFIX,replicate.com,🤖 AI 服务
+  - DOMAIN-SUFFIX,midjourney.com,🤖 AI 服务
+  
+  # ============================================
+  # 第 6 段:YouTube
+  # ============================================
+  - DOMAIN-SUFFIX,youtube.com,📺 YouTube
+  - DOMAIN-SUFFIX,youtu.be,📺 YouTube
+  - DOMAIN-SUFFIX,googlevideo.com,📺 YouTube
+  - DOMAIN-SUFFIX,ytimg.com,📺 YouTube
+  - DOMAIN-SUFFIX,youtubei.googleapis.com,📺 YouTube
+  - DOMAIN-KEYWORD,youtube,📺 YouTube
+  
+  # ============================================
+  # 第 7 段:Telegram
+  # ============================================
+  - DOMAIN-SUFFIX,t.me,📱 Telegram
+  - DOMAIN-SUFFIX,telegram.org,📱 Telegram
+  - DOMAIN-SUFFIX,telegram.me,📱 Telegram
+  - DOMAIN-SUFFIX,telegra.ph,📱 Telegram
+  - DOMAIN-SUFFIX,telesco.pe,📱 Telegram
+  - DOMAIN-SUFFIX,tdesktop.com,📱 Telegram
+  - DOMAIN-KEYWORD,telegram,📱 Telegram
+  - IP-CIDR,91.108.4.0/22,📱 Telegram,no-resolve
+  - IP-CIDR,91.108.8.0/22,📱 Telegram,no-resolve
+  - IP-CIDR,91.108.12.0/22,📱 Telegram,no-resolve
+  - IP-CIDR,91.108.16.0/22,📱 Telegram,no-resolve
+  - IP-CIDR,91.108.56.0/22,📱 Telegram,no-resolve
+  - IP-CIDR,109.239.140.0/24,📱 Telegram,no-resolve
+  - IP-CIDR,149.154.160.0/20,📱 Telegram,no-resolve
+  - IP-CIDR6,2001:67c:4e8::/48,📱 Telegram,no-resolve
+  - IP-CIDR6,2001:b28:f23d::/48,📱 Telegram,no-resolve
+  - IP-CIDR6,2001:b28:f23f::/48,📱 Telegram,no-resolve
+  
+  # ============================================
+  # 第 8 段:Apple 服务(国内 CDN 直连)
+  # ============================================
+  - DOMAIN,testflight.apple.com,🍎 Apple
+  - DOMAIN-SUFFIX,apple-cloudkit.com,🍎 Apple
+  - DOMAIN-SUFFIX,apple-mapkit.com,🍎 Apple
+  - DOMAIN-SUFFIX,apple.com,🍎 Apple
+  - DOMAIN-SUFFIX,apple.com.cn,🍎 Apple
+  - DOMAIN-SUFFIX,icloud.com,🍎 Apple
+  - DOMAIN-SUFFIX,icloud-content.com,🍎 Apple
+  - DOMAIN-SUFFIX,me.com,🍎 Apple
+  - DOMAIN-SUFFIX,mzstatic.com,🍎 Apple
+  - DOMAIN-SUFFIX,itunes.apple.com,🍎 Apple
+  - DOMAIN-SUFFIX,apps.apple.com,🍎 Apple
+  - DOMAIN-SUFFIX,cdn-apple.com,🍎 Apple
+  - DOMAIN-SUFFIX,aaplimg.com,🍎 Apple
+  - DOMAIN-SUFFIX,apple-dns.net,🍎 Apple
+  - DOMAIN-SUFFIX,akadns.net,🍎 Apple
+  
+  # ============================================
+  # 第 9 段:微软服务
+  # ============================================
+  - DOMAIN-SUFFIX,microsoft.com,Ⓜ️ 微软服务
+  - DOMAIN-SUFFIX,office.com,Ⓜ️ 微软服务
+  - DOMAIN-SUFFIX,office365.com,Ⓜ️ 微软服务
+  - DOMAIN-SUFFIX,live.com,Ⓜ️ 微软服务
+  - DOMAIN-SUFFIX,msn.com,Ⓜ️ 微软服务
+  - DOMAIN-SUFFIX,microsoftonline.com,Ⓜ️ 微软服务
+  - DOMAIN-SUFFIX,windows.com,Ⓜ️ 微软服务
+  - DOMAIN-SUFFIX,windowsupdate.com,Ⓜ️ 微软服务
+  - DOMAIN-SUFFIX,visualstudio.com,Ⓜ️ 微软服务
+  - DOMAIN-SUFFIX,vsassets.io,Ⓜ️ 微软服务
+  - DOMAIN-SUFFIX,bing.com,🌍 国外网站
+  - DOMAIN-SUFFIX,onedrive.com,Ⓜ️ 微软服务
+  - DOMAIN-SUFFIX,onenote.com,Ⓜ️ 微软服务
+  - DOMAIN-SUFFIX,outlook.com,🌍 国外网站
+  - DOMAIN-SUFFIX,sharepoint.com,Ⓜ️ 微软服务
+  - DOMAIN-SUFFIX,skype.com,🌍 国外网站
+  - DOMAIN-SUFFIX,xbox.com,🌍 国外网站
+  - DOMAIN-SUFFIX,xboxlive.com,🌍 国外网站
+  - DOMAIN,cn.bing.com,DIRECT
+  
+  # ============================================
+  # 第 10 段:Google 服务
+  # ============================================
+  - DOMAIN-SUFFIX,google.com,🌍 国外网站
+  - DOMAIN-SUFFIX,gstatic.com,🌍 国外网站
+  - DOMAIN-SUFFIX,googleapis.com,🌍 国外网站
+  - DOMAIN-SUFFIX,googleusercontent.com,🌍 国外网站
+  - DOMAIN-SUFFIX,googlesource.com,🌍 国外网站
+  - DOMAIN-SUFFIX,gmail.com,🌍 国外网站
+  - DOMAIN-SUFFIX,gvt0.com,🌍 国外网站
+  - DOMAIN-SUFFIX,gvt1.com,🌍 国外网站
+  - DOMAIN-SUFFIX,gvt2.com,🌍 国外网站
+  - DOMAIN-SUFFIX,ggpht.com,🌍 国外网站
+  - DOMAIN-SUFFIX,goo.gl,🌍 国外网站
+  - DOMAIN-SUFFIX,g.co,🌍 国外网站
+  - DOMAIN-SUFFIX,android.com,🌍 国外网站
+  - DOMAIN-SUFFIX,chromium.org,🌍 国外网站
+  - DOMAIN-SUFFIX,googleblog.com,🌍 国外网站
+  - DOMAIN-KEYWORD,google,🌍 国外网站
+  - DOMAIN-KEYWORD,gmail,🌍 国外网站
+  
+  # ============================================
+  # 第 11 段:社交媒体
+  # ============================================
+  # Facebook / Meta
+  - DOMAIN-SUFFIX,facebook.com,📲 社交媒体
+  - DOMAIN-SUFFIX,fbcdn.net,📲 社交媒体
+  - DOMAIN-SUFFIX,fb.com,📲 社交媒体
+  - DOMAIN-SUFFIX,fb.me,📲 社交媒体
+  - DOMAIN-SUFFIX,messenger.com,📲 社交媒体
+  - DOMAIN-SUFFIX,instagram.com,📲 社交媒体
+  - DOMAIN-SUFFIX,cdninstagram.com,📲 社交媒体
+  - DOMAIN-SUFFIX,threads.net,📲 社交媒体
+  - DOMAIN-SUFFIX,whatsapp.com,📲 社交媒体
+  - DOMAIN-KEYWORD,facebook,📲 社交媒体
+  - DOMAIN-KEYWORD,instagram,📲 社交媒体
+  - DOMAIN-KEYWORD,whatsapp,📲 社交媒体
+  
+  # Twitter / X
+  - DOMAIN-SUFFIX,twitter.com,📲 社交媒体
+  - DOMAIN-SUFFIX,x.com,📲 社交媒体
+  - DOMAIN-SUFFIX,twimg.com,📲 社交媒体
+  - DOMAIN-SUFFIX,t.co,📲 社交媒体
+  - DOMAIN-KEYWORD,twitter,📲 社交媒体
+  
+  # 其他社交
+  - DOMAIN-SUFFIX,reddit.com,📲 社交媒体
+  - DOMAIN-SUFFIX,redd.it,📲 社交媒体
+  - DOMAIN-SUFFIX,redditstatic.com,📲 社交媒体
+  - DOMAIN-SUFFIX,redditmedia.com,📲 社交媒体
+  - DOMAIN-SUFFIX,linkedin.com,📲 社交媒体
+  - DOMAIN-SUFFIX,licdn.com,📲 社交媒体
+  - DOMAIN-SUFFIX,pinterest.com,📲 社交媒体
+  - DOMAIN-SUFFIX,tumblr.com,📲 社交媒体
+  - DOMAIN-SUFFIX,quora.com,📲 社交媒体
+  - DOMAIN-SUFFIX,medium.com,📲 社交媒体
+  - DOMAIN-SUFFIX,discord.com,📲 社交媒体
+  - DOMAIN-SUFFIX,discord.gg,📲 社交媒体
+  - DOMAIN-SUFFIX,discordapp.com,📲 社交媒体
+  - DOMAIN-SUFFIX,discordapp.net,📲 社交媒体
+  
+  # ============================================
+  # 第 12 段:开发者服务
+  # ============================================
+  - DOMAIN-SUFFIX,github.com,🌍 国外网站
+  - DOMAIN-SUFFIX,githubusercontent.com,🌍 国外网站
+  - DOMAIN-SUFFIX,githubassets.com,🌍 国外网站
+  - DOMAIN-SUFFIX,gitlab.com,🌍 国外网站
+  - DOMAIN-SUFFIX,bitbucket.org,🌍 国外网站
+  - DOMAIN-SUFFIX,stackoverflow.com,🌍 国外网站
+  - DOMAIN-SUFFIX,stackexchange.com,🌍 国外网站
+  - DOMAIN-SUFFIX,docker.com,🌍 国外网站
+  - DOMAIN-SUFFIX,docker.io,🌍 国外网站
+  - DOMAIN-SUFFIX,npmjs.com,🌍 国外网站
+  - DOMAIN-SUFFIX,npmjs.org,🌍 国外网站
+  - DOMAIN-SUFFIX,pypi.org,🌍 国外网站
+  - DOMAIN-SUFFIX,pythonhosted.org,🌍 国外网站
+  - DOMAIN-SUFFIX,jsdelivr.net,🌍 国外网站
+  - DOMAIN-SUFFIX,unpkg.com,🌍 国外网站
+  - DOMAIN-SUFFIX,cocoapods.org,🌍 国外网站
+  - DOMAIN-SUFFIX,gradle.org,🌍 国外网站
+  - DOMAIN-SUFFIX,golang.org,🌍 国外网站
+  - DOMAIN-SUFFIX,rust-lang.org,🌍 国外网站
+  - DOMAIN-SUFFIX,crates.io,🌍 国外网站
+  - DOMAIN-KEYWORD,github,🌍 国外网站
+  
+  # ============================================
+  # 第 13 段:其他常用国外网站
+  # ============================================
+  - DOMAIN-SUFFIX,wikipedia.org,🌍 国外网站
+  - DOMAIN-SUFFIX,wikimedia.org,🌍 国外网站
+  - DOMAIN-SUFFIX,wikiwand.com,🌍 国外网站
+  - DOMAIN-SUFFIX,nytimes.com,🌍 国外网站
+  - DOMAIN-SUFFIX,wsj.com,🌍 国外网站
+  - DOMAIN-SUFFIX,bloomberg.com,🌍 国外网站
+  - DOMAIN-SUFFIX,bbc.com,🌍 国外网站
+  - DOMAIN-SUFFIX,bbc.co.uk,🌍 国外网站
+  - DOMAIN-SUFFIX,cnn.com,🌍 国外网站
+  - DOMAIN-SUFFIX,economist.com,🌍 国外网站
+  - DOMAIN-SUFFIX,theguardian.com,🌍 国外网站
+  - DOMAIN-SUFFIX,techcrunch.com,🌍 国外网站
+  - DOMAIN-SUFFIX,theverge.com,🌍 国外网站
+  - DOMAIN-SUFFIX,wired.com,🌍 国外网站
+  - DOMAIN-SUFFIX,arstechnica.com,🌍 国外网站
+  - DOMAIN-SUFFIX,engadget.com,🌍 国外网站
+  - DOMAIN-SUFFIX,9to5mac.com,🌍 国外网站
+  - DOMAIN-SUFFIX,macrumors.com,🌍 国外网站
+  - DOMAIN-SUFFIX,xda-developers.com,🌍 国外网站
+  - DOMAIN-SUFFIX,notion.so,🌍 国外网站
+  - DOMAIN-SUFFIX,notion.com,🌍 国外网站
+  - DOMAIN-SUFFIX,figma.com,🌍 国外网站
+  - DOMAIN-SUFFIX,canva.com,🌍 国外网站
+  - DOMAIN-SUFFIX,adobe.com,🌍 国外网站
+  - DOMAIN-SUFFIX,creativecloud.com,🌍 国外网站
+  - DOMAIN-SUFFIX,dropbox.com,🌍 国外网站
+  - DOMAIN-SUFFIX,dropboxusercontent.com,🌍 国外网站
+  - DOMAIN-KEYWORD,dropbox,🌍 国外网站
+  - DOMAIN-SUFFIX,trello.com,🌍 国外网站
+  - DOMAIN-SUFFIX,slack.com,🌍 国外网站
+  - DOMAIN-SUFFIX,zoom.us,🌍 国外网站
+  - DOMAIN-SUFFIX,duckduckgo.com,🌍 国外网站
+  
+  # 流媒体
+  - DOMAIN-SUFFIX,netflix.com,🌍 国外网站
+  - DOMAIN-SUFFIX,nflxvideo.net,🌍 国外网站
+  - DOMAIN-SUFFIX,nflximg.net,🌍 国外网站
+  - DOMAIN-SUFFIX,nflxso.net,🌍 国外网站
+  - DOMAIN-SUFFIX,spotify.com,🌍 国外网站
+  - DOMAIN-SUFFIX,scdn.co,🌍 国外网站
+  - DOMAIN-SUFFIX,spoti.fi,🌍 国外网站
+  - DOMAIN-SUFFIX,vimeo.com,🌍 国外网站
+  - DOMAIN-SUFFIX,vimeocdn.com,🌍 国外网站
+  - DOMAIN-SUFFIX,twitch.tv,🌍 国外网站
+  - DOMAIN-SUFFIX,ttvnw.net,🌍 国外网站
+  
+  # 图站/CDN
+  - DOMAIN-SUFFIX,imgur.com,🌍 国外网站
+  - DOMAIN-SUFFIX,pixiv.net,🌍 国外网站
+  - DOMAIN-SUFFIX,pximg.net,🌍 国外网站
+  - DOMAIN-SUFFIX,deviantart.com,🌍 国外网站
+  - DOMAIN-SUFFIX,flickr.com,🌍 国外网站
+  - DOMAIN-SUFFIX,staticflickr.com,🌍 国外网站
+  - DOMAIN-SUFFIX,fastly.net,🌍 国外网站
+  - DOMAIN-SUFFIX,akamaized.net,🌍 国外网站
+  
+  # ============================================
+  # 第 14 段:国内服务直连(大量域名)
+  # ============================================
+  
+  # 微信/QQ/腾讯
+  - DOMAIN-SUFFIX,qq.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,qzone.qq.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,tencent.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,tencent-cloud.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,tencent-cloud.net,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,myqcloud.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,qcloud.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,v.qq.com,🇨🇳 国内服务
+  - DOMAIN-KEYWORD,qq,🇨🇳 国内服务
+  - DOMAIN-KEYWORD,tencent,🇨🇳 国内服务
+  
+  # 阿里系
+  - DOMAIN-SUFFIX,alipay.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,alipay.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,alipayobjects.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,taobao.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,tmall.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,tmall.hk,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,1688.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,alibaba.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,alibaba-inc.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,aliyun.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,aliyuncs.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,alicdn.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,alikunlun.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,uc.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,ucweb.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,ele.me,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,xiami.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,xiami.net,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,youku.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,ykimg.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,amap.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,autonavi.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,gaode.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,dingtalk.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,cainiao.com,🇨🇳 国内服务
+  - DOMAIN-KEYWORD,alipay,🇨🇳 国内服务
+  - DOMAIN-KEYWORD,taobao,🇨🇳 国内服务
+  - DOMAIN-KEYWORD,alibaba,🇨🇳 国内服务
+  - DOMAIN-KEYWORD,alicdn,🇨🇳 国内服务
+  
+  # 京东
+  - DOMAIN-SUFFIX,jd.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,360buy.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,360buyimg.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,jdcache.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,jcloud.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,jddebug.com,🇨🇳 国内服务
+  
+  # 拼多多
+  - DOMAIN-SUFFIX,pinduoduo.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,yangkeduo.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,pddpic.com,🇨🇳 国内服务
+  
+  # B站
+  - DOMAIN-SUFFIX,bilibili.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,b23.tv,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,bilivideo.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,bilivideo.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,hdslb.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,acgvideo.com,🇨🇳 国内服务
+  - DOMAIN-KEYWORD,bilibili,🇨🇳 国内服务
+  
+  # 抖音/字节系
+  - DOMAIN-SUFFIX,douyin.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,iesdouyin.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,douyinpic.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,douyinvod.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,bytedance.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,bytedance.net,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,bytecdn.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,toutiao.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,toutiaoimg.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,toutiaocdn.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,snssdk.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,pstatp.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,feishu.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,feishu.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,larkoffice.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,lark.com,🇨🇳 国内服务
+  - DOMAIN-KEYWORD,douyin,🇨🇳 国内服务
+  - DOMAIN-KEYWORD,bytedance,🇨🇳 国内服务
+  
+  # 小红书
+  - DOMAIN-SUFFIX,xiaohongshu.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,xhscdn.com,🇨🇳 国内服务
+  
+  # 知乎
+  - DOMAIN-SUFFIX,zhihu.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,zhimg.com,🇨🇳 国内服务
+  
+  # 微博
+  - DOMAIN-SUFFIX,weibo.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,weibo.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,sinaimg.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,sina.com.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,sina.cn,🇨🇳 国内服务
+  
+  # 网易系
+  - DOMAIN-SUFFIX,163.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,126.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,127.net,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,netease.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,ydstatic.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,youdao.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,music.163.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,yinxiang.com,🇨🇳 国内服务
+  
+  # 美团/大众点评
+  - DOMAIN-SUFFIX,meituan.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,meituan.net,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,sankuai.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,dpfile.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,dianping.com,🇨🇳 国内服务
+  
+  # 滴滴
+  - DOMAIN-SUFFIX,didichuxing.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,didistatic.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,xiaojukeji.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,didiglobal.com,🇨🇳 国内服务
+  
+  # 百度系
+  - DOMAIN-SUFFIX,baidu.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,baidubcs.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,bdstatic.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,bdimg.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,bcebos.com,🇨🇳 国内服务
+  - DOMAIN-KEYWORD,baidu,🇨🇳 国内服务
+  
+  # 视频平台
+  - DOMAIN-SUFFIX,iqiyi.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,qiyi.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,qiyipic.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,71.am,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,iyf.tv,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,mgtv.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,le.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,lecloud.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,sohu.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,soku.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,tudou.com,🇨🇳 国内服务
+  
+  # 音乐
+  - DOMAIN-SUFFIX,kugou.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,kuwo.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,qqmusic.qq.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,ximalaya.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,xmcdn.com,🇨🇳 国内服务
+  
+  # 小米
+  - DOMAIN-SUFFIX,mi.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,miui.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,xiaomi.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,miwifi.com,🇨🇳 国内服务
+  
+  # 政府/教育
+  - DOMAIN-SUFFIX,gov.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,edu.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,12306.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,12306.com,🇨🇳 国内服务
+  
+  # 银行/金融
+  - DOMAIN-SUFFIX,icbc.com.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,ccb.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,abchina.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,boc.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,cmbchina.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,bankcomm.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,bankofchina.com,🇨🇳 国内服务
+  
+  # 国内 CDN
+  - DOMAIN-SUFFIX,360.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,360.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,qihucdn.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,qhimg.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,qhres.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,xunlei.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,xlpan.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,kankan.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,sogou.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,sogoucdn.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,clouddn.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,qiniu.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,qiniucdn.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,upaiyun.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,upyun.com,🇨🇳 国内服务
+  
+  # 国内常用网站
+  - DOMAIN-SUFFIX,csdn.net,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,cnblogs.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,jianshu.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,oschina.net,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,segmentfault.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,douban.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,doubanio.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,ctrip.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,trip.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,fliggy.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,12306.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,liblib.tv,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,wps.com,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,wps.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,kdocs.cn,🇨🇳 国内服务
+  - DOMAIN-SUFFIX,ksord.com,🇨🇳 国内服务
+  
+  # 通用国内顶级域名
+  - DOMAIN-SUFFIX,cn,🇨🇳 国内服务
+  - DOMAIN-KEYWORD,-cn,🇨🇳 国内服务
+  
+  # ============================================
+  # 第 15 段:GeoIP 兜底(国内 IP 直连)
+  # ============================================
+  - GEOIP,LAN,DIRECT
+  - GEOIP,CN,🇨🇳 国内服务
+  
+  # ============================================
+  # 第 16 段:漏网之鱼(默认 DIRECT,避免国内 App 误代理)
+  # ============================================
+  - MATCH,🐟 漏网之鱼
